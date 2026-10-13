@@ -3,39 +3,162 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Dhikr</title>
-<meta name="description" content="Morning and evening adhkar, a tap-to-count tasbih, gentle reminders and a streak widget.">
-<link rel="stylesheet" href="style.css">
+<title>Daily Dhikr: Adhkar &amp; Tasbih</title>
+<meta name="description" content="Morning and evening adhkar, a tap to count tasbih, gentle reminders and a daily streak. Fully offline, no ads, no tracking.">
+<meta name="theme-color" content="#4A7C6F">
+<link rel="canonical" href="https://ahussein17-aa.github.io/daily-dhikr-site/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daily Dhikr: Adhkar &amp; Tasbih">
+<meta property="og:description" content="Morning, evening and sleep adhkar, with a daily streak.">
+<meta property="og:url" content="https://ahussein17-aa.github.io/daily-dhikr-site/">
+<meta property="og:image" content="https://ahussein17-aa.github.io/daily-dhikr-site/icons/dailydhikr.png">
+<link rel="icon" href="icons/dailydhikr.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap">
+<style>
+  :root { --bg:#F7F3EC;--ink:#1C1C1E;--soft:#6E6E73;--card:#FFFFFF;--line:#E8E2D9;--band:#F1ECE3;--accent:#3C6B5F;--gold:#B8963E;--hero-bg:#F7F3EC;--hero-ink:#1C1C1E;--hero-soft:#6E6E73;--hero-accent:#3C6B5F;--shadow:0 18px 40px -20px rgba(28,28,30,.3);--yd-badge-bg:#1C1C1E;--yd-badge-fg:#F7F3EC;--yd-line:#E8E2D9;--yd-card:#FFFFFF; --head:Inter, -apple-system, "Segoe UI", sans-serif; --head-weight:700; --body:Inter, -apple-system, "Segoe UI", sans-serif; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#15120E;--ink:#F0EADD;--soft:#9C948A;--card:#211C16;--line:#332E26;--band:#1A1611;--accent:#7FB3A4;--gold:#D0A94F;--hero-bg:#15120E;--hero-ink:#F0EADD;--hero-soft:#9C948A;--hero-accent:#7FB3A4;--shadow:0 18px 40px -18px rgba(0,0,0,.7);--yd-badge-bg:#F0EADD;--yd-badge-fg:#15120E;--yd-line:#332E26;--yd-card:#211C16; } }
+  .hero {  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  .hero { padding: 4.5rem 0 3.5rem; text-align: center; background: var(--hero-bg); color: var(--hero-ink); }
+  .hero .icon { width: 5.5rem; height: 5.5rem; border-radius: 1.3rem; box-shadow: 0 14px 30px -14px rgba(0,0,0,0.5); margin-bottom: 1.5rem; }
+  .hero .arabic { font-family: Amiri, serif; font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.6; color: var(--hero-accent); margin-bottom: 0.4rem; }
+  .hero h1 { font-size: clamp(2.2rem, 5.5vw, 3.4rem); letter-spacing: -0.01em; margin-bottom: 0.9rem; }
+  .hero .tagline { font-size: clamp(1.1rem, 2.2vw, 1.3rem); color: var(--hero-soft); max-width: 34rem; margin: 0 auto 2rem; }
+  .hero .note { font-size: 0.9rem; color: var(--hero-soft); margin-top: 1rem; }
+
+  .screens { display: flex; justify-content: center; align-items: flex-end; gap: clamp(0.9rem, 3vw, 2.25rem); padding: 3rem 1.5rem 1rem; flex-wrap: wrap; }
+  figure.phone { margin: 0; border: 1px solid var(--line); border-radius: 1.9rem; padding: 0.5rem; background: var(--card); box-shadow: var(--shadow); width: min(15rem, 76vw); }
+  figure.phone.tall { width: min(17rem, 82vw); }
+  .phone img { display: block; width: 100%; height: auto; border-radius: 1.45rem; }
+  .phone figcaption { text-align: center; font-size: 0.85rem; color: var(--soft); padding: 0.6rem 0 0.2rem; }
+  @media (max-width: 40rem) {
+    .screens { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; align-items: flex-start; scroll-snap-type: x mandatory; padding-bottom: 1.5rem; }
+    .screens figure.phone, .screens figure.phone.tall { flex: none; width: 64vw; scroll-snap-align: center; }
+  }
+
+  .section { padding: 3.5rem 0; }
+  .eyebrow { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 0.7rem; }
+  .section h2, .yd-more h2 { font-size: clamp(1.6rem, 3.4vw, 2.15rem); margin-bottom: 0.9rem; }
+  .lede { color: var(--soft); max-width: 42rem; }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.1rem; margin-top: 2.25rem; }
+  .feature { background: var(--card); border: 1px solid var(--line); border-radius: 1.1rem; padding: 1.5rem 1.4rem; }
+  .feature h3 { font-size: 1.15rem; margin-bottom: 0.45rem; }
+  .feature p { font-size: 0.97rem; color: var(--soft); }
+  .feature .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--gold); margin-bottom: 1rem; }
+
+  .band { background: var(--band); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .strip { display: flex; gap: 1.1rem; overflow-x: auto; padding: 2rem 1.5rem 0.5rem; scroll-snap-type: x mandatory; }
+  .strip figure.phone { flex: none; scroll-snap-align: center; width: min(13.5rem, 62vw); box-shadow: none; }
+  @media (min-width: 60rem) { .strip { justify-content: center; } }
+
+  .promise { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 2.25rem; margin-top: 2rem; }
+  .promise h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .promise p { color: var(--soft); font-size: 1rem; }
+
+  .cta { text-align: center; }
+  .cta h2 { margin-bottom: 1.5rem; }
+
+  footer { border-top: 1px solid var(--line); padding: 2.25rem 0 3rem; text-align: center; color: var(--soft); font-size: 0.92rem; }
+  footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.6rem; margin-bottom: 0.9rem; }
+  footer a { color: var(--soft); }
+
+  .yd-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+  .yd-badge {
+    display: inline-flex; align-items: center; gap: 0.65rem; min-width: 11.5rem;
+    background: var(--yd-badge-bg, #1c1c1e); color: var(--yd-badge-fg, #fff);
+    border: 1px solid var(--yd-badge-border, transparent);
+    border-radius: 0.75rem; padding: 0.6rem 1.25rem 0.65rem 1rem;
+    text-decoration: none; transition: transform 0.15s ease;
+  }
+  a.yd-badge:hover { transform: translateY(-2px); }
+  .yd-badge svg { flex: none; }
+  .yd-lines { text-align: left; line-height: 1.2; }
+  .yd-small { display: block; font-size: 0.7rem; letter-spacing: 0.04em; opacity: 0.8; }
+  .yd-big { display: block; font-size: 1.15rem; font-weight: 600; }
+  .yd-soon { background: transparent; color: var(--yd-soon-fg, currentColor); border: 1px dashed var(--yd-soon-border, currentColor); opacity: 0.7; }
+  @media (prefers-reduced-motion: reduce) { .yd-badge { transition: none; } }
+
+  .yd-more { padding: 3.5rem 0; border-top: 1px solid var(--yd-line, rgba(128,128,128,0.25)); }
+  .yd-more .yd-wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+  .yd-more h2 { margin: 0 0 0.4rem; }
+  .yd-more .yd-sub { margin: 0 0 1.75rem; opacity: 0.75; }
+  .yd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+  .yd-app {
+    display: flex; align-items: center; gap: 0.9rem; padding: 0.9rem 1rem;
+    border: 1px solid var(--yd-line, rgba(128,128,128,0.25)); border-radius: 1rem;
+    background: var(--yd-card, transparent); color: inherit; text-decoration: none;
+  }
+  .yd-app:hover { border-color: currentColor; }
+  .yd-app img { width: 3.25rem; height: 3.25rem; border-radius: 0.8rem; flex: none; }
+  .yd-app b { display: block; font-size: 1.02rem; }
+  .yd-app span { display: block; font-size: 0.88rem; opacity: 0.75; line-height: 1.35; }
+  .yd-all { display: inline-block; margin-top: 1.5rem; }
+
+</style>
 </head>
 <body>
-<header>
-  <div class="arabic" lang="ar" dir="rtl">أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ</div>
-  <h1>Daily Dhikr</h1>
-  <p>Simple remembrance throughout your day</p>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="icon" src="icons/dailydhikr.png" alt="Daily Dhikr app icon" width="88" height="88">
+    <p class="arabic" lang="ar" dir="rtl">أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ</p>
+    <h1>Daily Dhikr</h1>
+    <p class="eyebrow" style="color:var(--hero-accent)">Adhkar &amp; Tasbih</p>
+    <p class="tagline">Keep the remembrance of Allah part of every day, with the adhkar of the Sunnah and a calm, simple counter.</p>
+    <div class="yd-badges"><a class="yd-badge" href="https://apps.apple.com/app/id6817398522"><svg width="22" height="26" viewBox="0 0 26 30" fill="currentColor" aria-hidden="true"><path d="M21.6 15.9c0-3.1 2.5-4.6 2.6-4.7-1.4-2.1-3.7-2.4-4.5-2.4-1.9-.2-3.7 1.1-4.7 1.1-1 0-2.5-1.1-4.1-1.1-2.1 0-4 1.2-5.1 3.1-2.2 3.8-.6 9.3 1.6 12.4 1 1.5 2.3 3.1 3.9 3.1 1.6-.1 2.2-1 4.1-1 1.9 0 2.4 1 4.1 1 1.7 0 2.8-1.5 3.8-3 1.2-1.7 1.7-3.4 1.7-3.5-.1 0-3.4-1.3-3.4-5zM18.4 6.3c.9-1 1.4-2.4 1.3-3.8-1.2.1-2.7.8-3.6 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.7-.7 3.6-1.7z"/></svg><span class="yd-lines"><span class="yd-small">Download on the</span><span class="yd-big">App Store</span></span></a><span class="yd-badge yd-soon" aria-disabled="true"><svg width="22" height="24" viewBox="0 0 24 26" fill="currentColor" aria-hidden="true"><path d="M3.2 1.1c-.5.3-.8.9-.8 1.600v20.600c0 .7.3 1.300.8 1.600L14.600 13 3.200 1.100zM16 11.500 5.800 1.300l12.700 7.300L16 11.500zM16 14.500l2.500 2.900L5.800 24.700 16 14.500zM20.300 9.700l2.600 1.500c1.400.8 1.400 2.800 0 3.600l-2.600 1.500L17.400 13l2.900-3.300z"/></svg><span class="yd-lines"><span class="yd-small">Coming soon on</span><span class="yd-big">Google Play</span></span></span></div>
+    <p class="note">Free on iPhone · works fully offline · no account, no ads</p>
+  </div>
 </header>
-<main>
-  <p class="lede">Daily Dhikr helps you keep the remembrance of Allah part of
-  every day, with the authentic adhkar of the Sunnah, a distraction-free
-  counter and gentle reminders at the times that matter.</p>
 
-  <h2>What's inside</h2>
-  <ul>
-    <li>More than 100 adhkar: morning, evening, after prayer, before sleep, anytime and daily life</li>
-    <li>Arabic text, transliteration, English meaning and hadith reference</li>
-    <li>Tap-to-count tasbih with gentle haptics</li>
-    <li>Daily progress, streaks and a week-at-a-glance view</li>
-    <li>Home screen widget</li>
-    <li>Morning, evening and before-sleep reminders at times you choose</li>
-    <li>Several Arabic fonts, and light or dark appearance</li>
-  </ul>
+<section class="screens" aria-label="App screenshots"><figure class="phone"><img src="shots/03-browse.webp" alt="Every occasion" width="480" height="853" loading="lazy"><figcaption>Every occasion</figcaption></figure><figure class="phone tall"><img src="shots/01-home.webp" alt="Your day at a glance" width="480" height="853" loading="lazy"><figcaption>Your day at a glance</figcaption></figure><figure class="phone"><img src="shots/02-counter.webp" alt="Tap to count" width="480" height="853" loading="lazy"><figcaption>Tap to count</figcaption></figure></section>
 
-  <h2>Private by design</h2>
-  <p>No accounts, no ads and no tracking. Everything stays on your device.
-  Read the <a href="privacy.html">privacy policy</a>.</p>
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">What&#x27;s inside</p>
+    <h2>Remembrance, made simple</h2>
+    <p class="lede">Open the app and the right adhkar for this time of day are already waiting. Tap to count, and watch your day and your week fill in.</p>
+    <div class="features"><div class="feature"><div class="dot"></div><h3>More than 100 adhkar</h3><p>Morning, evening, after prayer, before sleep, anytime, and daily life: eating, home, mosque, travel and more.</p></div><div class="feature"><div class="dot"></div><h3>Arabic, meaning and source</h3><p>Each dhikr has the Arabic text, a transliteration you can switch off, the English meaning and its hadith reference.</p></div><div class="feature"><div class="dot"></div><h3>A calm counter</h3><p>One large tap target, gentle haptics and a clear count of what remains. Nothing else on the screen.</p></div><div class="feature"><div class="dot"></div><h3>Streaks and reminders</h3><p>Morning, evening and before sleep reminders at times you choose, a daily streak, and a home screen widget.</p></div></div>
+  </div>
+</section>
 
-  <h2>Help</h2>
-  <p>Questions or corrections? Visit <a href="support.html">support</a>.</p>
-</main>
-<footer>© 2026 Yalla Designs · <a href="support.html">Support</a> · <a href="privacy.html">Privacy Policy</a></footer>
+<section class="section band">
+  <div class="wrap">
+    <p class="eyebrow">A closer look</p>
+    <h2>Made to be opened every day</h2>
+  </div>
+  <div class="strip" aria-label="More screenshots"><figure class="phone"><img src="shots/05-morning-adhkar.webp" alt="Morning adhkar" width="480" height="853" loading="lazy"><figcaption>Morning adhkar</figcaption></figure><figure class="phone"><img src="shots/04-category.webp" alt="Free counting" width="480" height="853" loading="lazy"><figcaption>Free counting</figcaption></figure><figure class="phone"><img src="shots/06-settings.webp" alt="Arabic fonts" width="480" height="853" loading="lazy"><figcaption>Arabic fonts</figcaption></figure><figure class="phone"><img src="shots/07-home-dark.webp" alt="Light and dark" width="480" height="853" loading="lazy"><figcaption>Light and dark</figcaption></figure></div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Built with care</p>
+    <h2>Two promises</h2>
+    <div class="promise"><div><h3>From the Sunnah</h3><p>The adhkar are taken from the authentic collections and each one shows its reference, so you know what you are reciting and where it comes from.</p></div><div><h3>Private by design</h3><p>No accounts, no ads and no tracking. Everything stays on your device.</p></div></div>
+  </div>
+</section>
+
+<section class="section band cta">
+  <div class="wrap">
+    <h2>Begin with this morning&#x27;s adhkar</h2>
+    <div class="yd-badges"><a class="yd-badge" href="https://apps.apple.com/app/id6817398522"><svg width="22" height="26" viewBox="0 0 26 30" fill="currentColor" aria-hidden="true"><path d="M21.6 15.9c0-3.1 2.5-4.6 2.6-4.7-1.4-2.1-3.7-2.4-4.5-2.4-1.9-.2-3.7 1.1-4.7 1.1-1 0-2.5-1.1-4.1-1.1-2.1 0-4 1.2-5.1 3.1-2.2 3.8-.6 9.3 1.6 12.4 1 1.5 2.3 3.1 3.9 3.1 1.6-.1 2.2-1 4.1-1 1.9 0 2.4 1 4.1 1 1.7 0 2.8-1.5 3.8-3 1.2-1.7 1.7-3.4 1.7-3.5-.1 0-3.4-1.3-3.4-5zM18.4 6.3c.9-1 1.4-2.4 1.3-3.8-1.2.1-2.7.8-3.6 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.7-.7 3.6-1.7z"/></svg><span class="yd-lines"><span class="yd-small">Download on the</span><span class="yd-big">App Store</span></span></a><span class="yd-badge yd-soon" aria-disabled="true"><svg width="22" height="24" viewBox="0 0 24 26" fill="currentColor" aria-hidden="true"><path d="M3.2 1.1c-.5.3-.8.9-.8 1.600v20.600c0 .7.3 1.300.8 1.600L14.600 13 3.200 1.100zM16 11.500 5.800 1.300l12.700 7.300L16 11.500zM16 14.500l2.500 2.900L5.800 24.700 16 14.500zM20.300 9.700l2.600 1.500c1.400.8 1.400 2.800 0 3.600l-2.600 1.500L17.400 13l2.900-3.300z"/></svg><span class="yd-lines"><span class="yd-small">Coming soon on</span><span class="yd-big">Google Play</span></span></span></div>
+  </div>
+</section>
+
+<section class="yd-more" id="more-apps"><div class="yd-wrap"><h2>More from Yalla Designs</h2><p class="yd-sub">Free, offline and private, like this one.</p><div class="yd-grid"><a class="yd-app" href="https://ahussein17-aa.github.io/sahaba-site/"><img src="icons/sahaba.png" alt="" width="52" height="52"><div><b>Sahaba</b><span>The lives of the Companions, told simply.</span></div></a><a class="yd-app" href="https://ahussein17-aa.github.io/99-names-pages/"><img src="icons/names99.png" alt="" width="52" height="52"><div><b>99 Names</b><span>Know Allah through His Beautiful Names.</span></div></a><a class="yd-app" href="https://ahussein17-aa.github.io/ayah-site/"><img src="icons/ayah.png" alt="" width="52" height="52"><div><b>Ayah</b><span>Reflect on the signs within the Qur&#x27;an.</span></div></a><a class="yd-app" href="https://ahussein17-aa.github.io/dawah-companion-site/"><img src="icons/dawah.png" alt="" width="52" height="52"><div><b>Dawah Companion</b><span>Explain Islam clearly and with confidence.</span></div></a></div><a class="yd-all" href="https://ahussein17-aa.github.io/apps/">See all five apps</a></div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="links"><a href="https://apps.apple.com/app/id6817398522">App Store</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="https://ahussein17-aa.github.io/apps/">All apps</a></div>
+    <p>© 2026 Yalla Designs</p>
+  </div>
+</footer>
+
 </body>
 </html>
